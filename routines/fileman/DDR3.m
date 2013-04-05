@@ -1,5 +1,5 @@
-DDR3	;ALB/MJK,SF/DCM-FileMan Delphi Components' RPCs ;2/24/98  10:01
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DDR3	;ALB/MJK,SF/DCM-FileMan Delphi Components' RPCs ;2013-03-22  1:47 PM
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	;
 	Q
@@ -10,12 +10,12 @@ FILEC(DDRDATA,DDRMODE,DDRROOT,DDRFLAGS,DDRIENS)	;  DDR FILER rpc callback
 	; -- set up placeholder DINUM's if any
 	; -- NOTE:  Can't use until multiple arrays can be passed by broker
 	I $D(DDRROOT("IENs")) M DDRIENS=DDRROOT("IENs")
-	S I="" F  S I=$O(DDRIENS(I)) Q:I=""  S DDRRTN(+I)=+DDRIENS(I)
-	IF DDRMODE="ADD" D
-	. D UPDATE^DIE("","DDRFDA","DDRRTN","DDRERR")
-	ELSE  D
-	. S DDRFLAGS=$S($D(DDRFLAGS):DDRFLAGS,1:"")
-	. D FILE^DIE(DDRFLAGS,"DDRFDA","DDRERR")
+	SET DDRFLAGS=$SELECT($DATA(DDRFLAGS):DDRFLAGS,1:"")
+	SET I="" FOR  SET I=$ORDER(DDRIENS(I)) QUIT:I=""  SET DDRRTN(+I)=+DDRIENS(I)
+	IF DDRMODE="ADD" DO
+	. DO UPDATE^DIE(DDRFLAGS,"DDRFDA","DDRRTN","DDRERR")
+	ELSE  DO
+	. DO FILE^DIE(DDRFLAGS,"DDRFDA","DDRERR")
 	S N=0
 	D SET("[Data]")
 	; -- send back info on entry #'s for placeholders
