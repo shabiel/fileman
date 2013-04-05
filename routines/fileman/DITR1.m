@@ -1,5 +1,5 @@
-DITR1	;SFISC/GFT-FIND ENTRY MATCHES ;04:12 PM  3 Dec 2002
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DITR1	;SFISC/GFT-FIND ENTRY MATCHES ;18-MAR-2013
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	S W=DMRG,X=$P(Z,U),%=DFL\2,Y=@("D"_%),A=1 S:$G(DIFRDKP) DIFRNOAD=$D(@DIFRSA@("^DD",DIFRFILE,DDT(DTL),.01,0))
 	N DIMATCH S DIMATCH=0
@@ -74,7 +74,7 @@ P	S A=$P(^DD(DIFL,DIREC,0),U,4)
 	S %=$P(A,";",2),W=$P(A,";")
 	I @("'$D("_$S('$D(B):DTO(DTL)_"Y,",DFL:DFR(DFL)_"DFN(DFL),",1:DFR(1))_"W))") S W="" Q
 	I % S W=$P(^(W),U,%)
-	E  S W=$E(^(W),+$E(W,2,9),$P(W,",",2))
+	E  S W=$E(^(W),+$E(%,2,9),$P(%,",",2))
 	Q:DIKEY
 UP	I %["F" S W=$$UP^DILIBF(W)
 	Q
