@@ -1,11 +1,11 @@
-FLAP Fileman Project
+Fileman 22.3 Pre-Alpha Code
 ====================
 
 ## Important Notice
 This is not production-ready code. It is provided here for purposes of review and testing only. Please do not install into a production environment under any circumstances.
 
 ## License
-Copyright 2012 George Timson and other Fileman Authors
+Copyright 2012-3 George Timson and other Fileman Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
