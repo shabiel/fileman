@@ -1,5 +1,5 @@
-DDS11(DDSBK,DDSNFO)	;SFISC/MLH,MKO-LOAD DATA ;4JUNE2007; LOAD DATA TO BE SHOWN ON SCREEN
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DDS11(DDSBK,DDSNFO)	;SFISC/MLH,MKO-LOAD DATA TO BE SHOWN ON SCREEN;6NOV2012
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	;Input variables:
 	;  DDSBK   = Block #
@@ -44,7 +44,7 @@ LD	;Load data for a field
 	;
 	D @($S(DDS1FLD=.001:"L3",DDS1PC=0:"L2",1:"L1"))
 	;
-	I DDS1DV["O"!(DDS1DV["P")!(DDS1DV["V")!(DDS1DV["D")!(DDS1DV["S") D
+	I DDS1DV["O"!(DDS1DV["P")!(DDS1DV["V")!(DDS1DV["D")!(DDS1DV["S")!(DDS1DV["t") D
 	. Q:$D(@DDS1REFD@(DDS1FLD,"X"))
 	. D:Y]"" XFORM
 	. S @DDS1REFD@(DDS1FLD,"X")=Y
@@ -127,14 +127,14 @@ L3	;Get number field
 EXT(DDP,DDS1FLD,Y)	;Return external form of Y
 	N DDS1DV,X
 	S DDS1DV=$P(^DD(DDP,DDS1FLD,0),U,2),X=$P(^(0),U,3)
-	I DDS1DV'["O",DDS1DV'["P",DDS1DV'["V",DDS1DV'["D",DDS1DV'["S" Q Y
+	I DDS1DV'["O",DDS1DV'["P",DDS1DV'["V",DDS1DV'["D",DDS1DV'["S",DDS1DV'["t" Q Y
 	I DDS1DV'["O",Y="" Q ""
 	D XFORM
 	Q Y
 	;
 XFORM	;
 	N DDS1N
-	I DDS1DV["O",+DDS1FLD,$D(^DD(DDP,+DDS1FLD,2))#2 X ^(2) Q
+	I DDS1DV["O"!(DDS1DV["t") X $$OUTPUT^DIETLIBF(DDP,+DDS1FLD) Q
 	I DDS1DV["P",@("$D(^"_X_"0))") S X=+$P(^(0),U,2) Q:'$D(^(Y,0))  S Y=$P(^(0),U),X=$P(^DD(X,.01,0),U,3),DDS1DV=$P(^(0),U,2) G XFORM
 	I DDS1DV["V",+$P(Y,"E"),$P(Y,";",2)["(",$D(@(U_$P(Y,";",2)_"0)"))#2 S X=+$P($P(^(0),U,2),"E") Q:$D(^(+$P(Y,"E"),0))[0  S Y=$P(^(0),U) I $D(^DD(+$P(X,"E"),.01,0))#2 S DDS1DV=$P(^(0),U,2),X=$P(^(0),U,3) G XFORM
 	I DDS1DV["D" X ^DD("DD")

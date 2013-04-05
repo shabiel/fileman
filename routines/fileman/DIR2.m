@@ -1,5 +1,5 @@
-DIR2	;SFISC/XAK-READER (SETUP VARS,REPLACE...WITH) ;20JAN2013
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DIR2	;SFISC/XAK-READER (SETUP VARS,REPLACE...WITH) ;11MAR2013
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	K Y,% S U="^"
 	D DIR("A"),DIR("?"),DIR("L"),DIR("B") ;**
@@ -7,7 +7,7 @@ DIR2	;SFISC/XAK-READER (SETUP VARS,REPLACE...WITH) ;20JAN2013
 	K:$D(DIR("A"))=10 DIR("A") K:$D(DIR("?"))=10 DIR("?")
 	S %W0=$S($D(DIR("?")):DIR("?"),%T'?.AN:"",'$P($T(@(%T_1)),";",5):"",1:$$EZBLD^DIALOG($P($T(@(%T_1)),";",5)))
 	S %A0=$$EZBLD^DIALOG(8041)
-	;I %T="t" D SETUP^DIRUD Q  ;if this a user-defined data type read
+	I %T="t" D SETUP^DIRUD Q  ;if this a user-defined data type read
 	;**CCO/NI (next line) SPECIFICATION OF READ IS 'DATA DICTIONARY', SO GET FIELD LABEL AND PROPERTIES
 	I %A?.NP1",".ANP S %B1=$P(%A,","),%B2=+$P(%A,",",2) G:'$D(^DD(%B1,%B2,0)) EO S %B3=^(0),%B=$P(%B3,U,2) G:%B EO D:'$D(DIR("B")) DA^DIRQ:$D(DA)#2 S:'$D(DIR("A")) %P=$$LABEL^DIALOGZ(%B1,%B2)_": " S:$P(%B3,U,2)'["R" %A=%A_"O" S %T=1 G NN
 	I "FSYENDLP"'[%T G EO

@@ -1,5 +1,5 @@
-DIO0	;SFISC/GFT,TKW-BUILD SORT AND SUB-HDR ;24JAN2013
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DIO0	;SFISC/GFT,TKW-BUILD SORT AND SUB-HDR ;9NOV2012
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	;
 	S Z=Z+1,DE=$P(DN,",",Z)_"=$O("_DI_$P(DN,",",1,Z)_")),DN="_(Z+1)
@@ -57,7 +57,7 @@ EGP	I '$D(^DD(+DPP(Z),V,0)) S X=$P(DPP(Z),U,6,9)
 	.I N=$P(DPP(Z),U,3) S $P(DPP(Z),U,3)=T
 DT	I $P(X,U,2)["D" S Y=" S Y="_Y_" D:Y<9999999 DT"
 	E  I $G(DPP(Z,"OUT"))]"" S DPP(Z,"OUT")=" S Y="_Y_" "_DPP(Z,"OUT"),Y=",Y"
-	E  I $P(X,U,2)["O"!($P(X,U,4)?.P) S Y=","_Y
+	E  I $P(X,U,2)["O"!($P(X,U,2)["t")!($P(X,U,4)?.P) S Y=","_Y
 DILL	E  D EN^DILL(+DPP(Z),V,1)
 	S V=$P(F,";C",2),V="?"_$S(V:V-1,1:Z*3+5)
 F	I F[";S" S %=$P(F,";S",2) S:'% %=1 S V=$E("!!!!!!!!!!!!!!!!!!!!!!!!!!!!",1,%)_V,M=M+%

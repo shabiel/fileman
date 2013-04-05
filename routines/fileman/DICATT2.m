@@ -1,5 +1,5 @@
-DICATT2	;SFISC/GFT,XAK-DEFINING MULTIPLES ;4APR2007
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DICATT2	;SFISC/GFT,XAK-DEFINING MULTIPLES ;7NOV2012
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	;
 	S T=$E(Z) G CHECK^DICATT:$D(DTOUT)
@@ -57,12 +57,17 @@ LENGTH(DI,DIFIELD)	;
 	;
 NO	;
 	W !,$C(7),"  <DATA DEFINITION UNCHANGED>" I $P(Z,U)["K"&(DUZ(0)'="@") G N^DICATT
-TYPE	K Y,M,DE,DIE,DQ,DG G Q^DIB:$D(DTOUT) S N=0,DQI=DICL+9,Y=^DD(A,DA,0),F=$P(Y,U),Z="" W !!,"DATA TYPE OF ",F,": " I 'O R X:DTIME S:'$T DTOUT=1 G X^DICATT:X[U!'$T S:DUZ(0)'="@" DIC("S")="I Y-9" S:DA=.001 DIC("S")="I Y<4!(Y=7)" G NEW
-	F N=9:-1:5,1:1:4 Q:$P(Y,U,2)[$E("DNSFWCPVK",N)
-	W $P(^DOPT("DICATT",N,0),U) G X:$P(Y,U,2)["K"&(DUZ(0)'="@")
-	G X:$P(Y,U,2)["X",6^DICATT:N=6 R "// ",X:DTIME S:'$T DTOUT=1 G N^DICATT:X[U!'$T,0^DICATT:X="" S DIC("S")="I Y-6,Y-9"_$P(",Y-5",U,N\2-2!(A=B)!(DA-.01)!$O(^DD(A,DA))>0),DIC("S")=DIC("S")_$S(N=7:",Y-8",N=8:",Y-7",1:"")
+TYPE	K Y,M,DE,DIE,DQ,DG G Q^DIB:$D(DTOUT) S N=0,DQI=DICL+9,Y=^DD(A,DA,0),F=$P(Y,U),Z="" W !!,"DATA TYPE OF ",F,": "
+	I 'O R X:DTIME S:'$T DTOUT=1 G X^DICATT:X[U!'$T S DIC("S")="I Y-99,Y-10,Y<10!$O(^(201,0))" S:DUZ(0)'="@" DIC("S")="I Y-9,Y-99,Y<10!$O(^(201,0))" S:DA=.001 DIC("S")="I Y<4!(Y=7)" G NEW
+	I $P(Y,U,2)["t" S N=+$P($P(Y,U,2),"t",2)
+	E  F N=9:-1:5,1:1:4 Q:$P(Y,U,2)[$E("DNSFWCPVK",N)
+	W $P(^DI(.81,N,0),U) ;Data type
+	G X:$P(Y,U,2)["K"&(DUZ(0)'="@") ;non-programmer can't edit MUMPS type
+	G X:$P(Y,U,2)["X",6^DICATT:N=6 R "// ",X:DTIME S:'$T DTOUT=1 G N^DICATT:X[U!'$T,0^DICATT:X=""
+	S DIC("S")="I Y-6,Y-10,Y-99,Y-9"_$P(",Y-5",U,N\2-2!(A=B)!(DA-.01)!$O(^DD(A,DA))>0),DIC("S")=DIC("S")_$S(N=7:",Y-8",N=8:",Y-7",1:"")
 NEW	I 'O,X=" ",E,$P(^DD(A,E,0),U,2)'["P",$P(^(0),U,2)'["V" W " <",$C(7) D E^DICATT W " DUPLICATED>" S DIZ=$S($D(DIZ):DIZ,1:DIZZ) G E^DICATT1
-	S DIC(0)="QEI",DIC="^DOPT(""DICATT""," D ^DIC I Y>0 S:N-Y&O M="",O=$P(O,U,1,2)_U_U_$P(O,U,4) S N=+Y G 0^DICATT
+	S DIC(0)="QEI",DIC="^DI(.81," D ^DIC K DIC ;Look up X in Data Type file
+	I Y>0 S:N-Y&O M="",O=$P(O,U,1,2)_U_U_$P(O,U,4) S N=+Y G 0^DICATT
 	I 'O,X["?",E,$P(^DD(A,E,0),U,2)'["P",$P(^(0),U,2)'["V" D DICATT^DIQQQ,E^DICATT W ", JUST HIT THE SPACE KEY"
 	G TYPE
 	;

@@ -1,10 +1,11 @@
-DILL	;SFISC/GFT-TURN PRINT FLDS INTO CODE ;24JAN2013
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DILL	;SFISC/GFT-TURN PRINT FLDS INTO CODE ;2013-03-22  2:37 PM
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 EN(DILLFILE,DILLFLD,DXSET)	; Entry Point
 	S:$G(DXSET) DXS=1
 V	;
-	S V=$P(X,U,2),DRJ=$F(V,"P") I V["O",$D(^DD(DILLFILE,DILLFLD,2)) S Y=Y_" "_^(2),DIO=1,D1="",DLN=30,DRJ=0 D SY G J
+TYPE	S V=$P(X,U,2) I V["O"!(V["t") S Y=Y_" "_$$OUTPUT^DIETLIBF(DILLFILE,DILLFLD),DIO=1,D1="",DLN=30,DRJ=0 D SY G J
+	S DRJ=$F(V,"P")
 	G CLC:V["C",D:'DRJ S V=+$E(V,DRJ,99),D1=$P(X,U,3) I 'V S DRJ=0,@("V=$D(^"_D1_"0))") G D:'V S V=+$P(^(0),U,2)
 POINTR	D Y S Y=Y_" S Y=$S(Y="""":Y,$D(^"_D1_"Y,0))#2:$P(^(0),U),1:Y)" I $D(^DD(V,.01,0)) S X=$P(X,U)_U_$P(^(0),U,2,9) G V
 D	I V["V" D Y S Y=$P(Y," S Y=$S(Y="""":Y,$D(^")_" S C=$P(^DD("_DP_","_+W_",0),U,2) D Y^DIQ:Y S C="","""

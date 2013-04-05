@@ -1,8 +1,11 @@
-DIR1	;SFISC/XAK(PROCESS DATATYPE) ;4DEC2009
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DIR1	;SFISC/XAK(PROCESS DATATYPE) ;6MAR2013
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	;
-	S %E=0 D @%T S:X?.E1C.E %E=1 Q:'%E!(X'?.E1L.E)!(%A["S")!(%A["Y")!((%T=1)&(%B["P"))!(%A["P")
+	S %E=0 I %T="t" D  ;user-defined data types
+	. D VAL^DIRUD
+	E  D @%T
+	S:X?.E1C.E %E=1 Q:'%E!(X'?.E1L.E)!(%A["S")!(%A["Y")!((%T=1)&((%B["P")!(%B["S")))!(%A["P")
 	S X=$$UP^DILIBF(X) ;**CCO/NI UPPERCASE TRANSLATION
 	G DIR1
 0	Q
@@ -122,7 +125,7 @@ R	D IT:'%E S X=%C
 IT	D
 	. N %A,%B,%C,%N,%P,%T,%W N:'$G(DIRDINUM) DINUM
 	. I $P(%B3,U,2)["N",$P(%B3,U,5,99)'["$",X?.1"-".N.1".".N,$P(%B3,U,5,99)["+X'=X" S X=+X
-	. X $P(%B3,U,5,99)
+	. X $S($P(%B3,U,2)'["t":$P(%B3,U,5,99),1:$$VALEXT^DIETLIBF(%B1,%B2))
 	S %E='$D(X)
 	I '%E,%B'["P" S Y=X
 	I '%E,%B["D" X ^DD("DD") S Y(0)=Y,Y=X

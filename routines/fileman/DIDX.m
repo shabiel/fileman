@@ -1,5 +1,5 @@
-DIDX	;SFISC/XAK-BRIEF DD ;25SEP2003
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DIDX	;SFISC/XAK-BRIEF DD ;4NOV2012
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	S D1=D0,DINM=1,DDRG=1,DDL1=14,DDL2=32 G B
 	;
@@ -13,6 +13,7 @@ B	I $D(DIGR),D1-.01!'DID X DIGR E  G END
 	S N=^DD(F(Z),D1,0) D HD:$Y+9>IOSL Q:M=U  W !!?Z+Z-2,$P(N,U,1),?30,S,F(Z),",",D1,S,S
 	S X=$P(N,U,2) I X W ?M,$J(+X,8) I $D(^DD(+X,.01,0)),$P(^(0),U,2)["W" W "  WORD-PROCESSING" S X=""
 	W ?M,S,S F W="BOOLEAN","COMPUTED","FREE TEXT","SET","DATE","NUMBER","POINTER","VARIABLE POINTER","K","p","m" I X[$E(W) S:W="K" W="MUMPS" S:W="p" W="POINTER" S:W="m" W="MULTIPLE" D W1 I X["V" D VP0
+TYPE	S W=+$P(X,"t",2) I W,$D(^DI(.81,W,0)) S W=" ("_$P(^(0),U)_" Data Type)" D W1
 	I 'X D
 	.N Y,NM S:X["P" Y=U_$P(N,U,3),NM=+$P(X,"P",2) I X["C" S NM=+$P(X,"p",2) I NM S Y=$G(^DIC(NM,0,"GL"))
 	.Q:'$D(Y)  I Y[U,$D(@(Y_"0)")) S W="TO "_$P(^(0),U)_" FILE (#"_NM_")"
@@ -25,7 +26,7 @@ H	;
 	I X["S" S N=$P(N,U,3) F I=1:1 S Y=$P(N,";",I) Q:Y=""  S W="'"_$P(Y,":")_"' FOR "_$P(Y,":",2)_";" W ?M,"  "_W,!
 	I $D(^DD(F(Z),D1,3))#2 S W=^(3) W ?M D W1
 RD	;
-	I X S Z=Z+1,DDL1=DDL1+2,DDL2=DDL2+2,F(Z)=+X,W="   Multiple" D W1,L
+	I X S Z=Z+1,DDL1=DDL1+2,DDL2=DDL2+2,F(Z)=+X,W="   Multiple" D W1,L ;L is called recursively for a multiple, pushing downa stack
 END	S X="" G:M'=U A:Z>1 Q
 	;
 W1	W:$X+$L(W)+3>IOM !,?$S(IOM-$L(W)-5<M:IOM-5-$L(W),1:M),S S %Y=$E(W,IOM-$X,999) W $E(W,1,IOM-$X-1),S I %Y]"" S W=%Y G W1

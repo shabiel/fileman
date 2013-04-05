@@ -1,5 +1,5 @@
-DIQ	;SFISC/GFT-CAPTIONED TEMPLATE ;1DEC2009
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DIQ	;SFISC/GFT-CAPTIONED TEMPLATE ;5NOV2012
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	G INQ^DII
 	;
@@ -145,6 +145,7 @@ WRITE(DIQW)	N DIQWL
 	;
 Y	;PRINT TEMPLATES CALL HERE    NAKED REFERENCE IS TO ^DD(FILE#,FIELD#,0)
 	I $G(Y)="" S Y="" Q
+TYPE	I C["t" X $$OUTPUT^DIETLIBF Q  ;DATA TYPE IS IN FILE .81!
 	I C["O",$D(^(2)) X ^(2) Q
 S	I C["S" D PARSET($$LANGSET,.Y) Q
 	I C["P",$D(@("^"_$P(^(0),U,3)_"0)")) S C=$P(^(0),U,2) Q:'$D(^(+Y,0))  S Y=$P(^(0),U) I $D(^DD(+C,.01,0)) S C=$P(^(0),U,2) G S

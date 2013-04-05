@@ -1,8 +1,11 @@
-DIDU	;SEA/TOAD-VA FileMan: DD Tools, External Format ;21AUG2009
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DIDU	;SEA/TOAD-VA FileMan: DD Tools, External Format ;5NOV2012
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	;
 EXTERNAL(DIFILE,DIFIELD,DIFLAGS,DINTERNL,DIMSGA)	;
+	;DIFLAGS       Flags (to control output transforms on pointers)
+	;                ("F"=execute first output transform, "L"=execute last output transform, "i"=return internal value of field at end of pointer chain,
+	;                 "h"=return external value but don't execute output transform).
 	;
 	; convert a value from internal to external format
 	; used all over lookup routines
@@ -49,10 +52,10 @@ E5	; handle output transforms (see docs for effects of flags)
 	;
 	F  D  I DIDONE!$G(DIERR)!DIOUT Q
 	. I DIFLAGS["U",DIXFORM'="",DITYPE'["P",DITYPE'["V" S DITYPE=DITYPE_"O"
-	. I DITYPE["O",DIFLAGS'["i",DIFLAGS'["h" D  I DIDONE!$G(DIERR) Q
+TYPE	. I DITYPE["O"!(DITYPE["t"),DIFLAGS'["i",DIFLAGS'["h" D  I DIDONE!$G(DIERR) Q
 	. . I DIFLAGS["F",DICHAIN Q
 	. . I DIFLAGS["L",DITYPE["P"!(DITYPE["V") Q
-	. . I DIXFORM=""!(DIFLAGS'["U") S DIXFORM=$G(^DD(DIFILE,DIFIELD,2))
+	. . I DIXFORM=""!(DIFLAGS'["U") S DIXFORM=$G(^DD(DIFILE,DIFIELD,2)) I DITYPE["t" S DIXFORM=$$OUTPUT^DIETLIBF
 	. . I DIXFORM="" Q
 	. . I DIFLAGS["U",DITYPE["P"!(DITYPE["V") Q
 	. . N Y S Y=DINTERNL X DIXFORM

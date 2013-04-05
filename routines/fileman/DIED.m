@@ -1,5 +1,5 @@
-DIED	;SFISC/GFT,XAK-MAJOR INPUT PROCESSOR ;3FEB2006
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DIED	;SFISC/GFT,XAK-MAJOR INPUT PROCESSOR ;4NOV2012
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 O	D W W Y W:$X>48 !?9
 	I $L(Y)>19,'DV,DV'["I",(DV["F"!(DV["K")) G RW^DIR2
@@ -25,7 +25,11 @@ T	G M^DIE1:DV,^DIE3:DV["V",P:DV'["S" I X?.ANP D SET I 'DDER G V
 P	I DV["P" S DIC=U_DU,DIC(0)=$E("EN",$D(DB(DQ))+1)_"M"_$E("L",DV'["'") S:DIC(0)["L" DLAYGO=+$P(DV,"P",2) G AST:DV["*" D NOSCR S X=+Y,DIC=DIE G X:X<0
 	G V:DV'["N" I $L($P(X,"."))>24 K X G Z
 	I $P(DQ(DQ),U,5,99)'["$",X?.1"-".N.1".".N,$P(DQ(DQ),U,5,99)["+X'=X" S X=+X
-V	S DIER=1 X $P(DQ(DQ),U,5,99) K DIER,YS
+V	S DIER=1
+	I DV["t" D
+	. X $S($D(DB(DQ)):$$VALEXTS^DIETLIBF(DP,DIFLD),1:$$VALEXT^DIETLIBF(DP,DIFLD)) ;DB array tells that value is stuffed (non-interactive)
+	. I $D(X),'$D(DB(DQ)),DV["O",$D(^DD(DP,DIFLD,2))#2 N Y S Y=X X ^(2) W "  ("_Y_")"
+	E  X $P(DQ(DQ),U,5,99)
 UNIQ	I $P(DQ(DQ),U,2)["U",$D(X),DIFLD=.01 K % M %=@(DIE_"""B"",X)") K %(DA) K:$O(%(0)) X
 Z	K DIC("S"),DLAYGO I $D(X),X?.ANP,X'=U D LOADXR G:'$$KEYCHK UNIQFERR S DG($P(DQ(DQ),U,4))=X S:DV["d" ^DISV(DUZ,"DIE",DIP)=X G A
 X	W:'$D(ZTQUEUED) $C(7) W:'$D(DDS)&'$D(ZTQUEUED) "??"

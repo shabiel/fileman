@@ -1,5 +1,5 @@
-DDS02	;SFISC/MKO-OVERFLOW FROM ^DDS01 ;29MAR2011
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DDS02	;SFISC/MKO-OVERFLOW FROM ^DDS01 ;6NOV2012
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 REFRESH(DDSPG)	;Refreshes the setup for page
 	N B,D,I,DIE,DDSDA,DDP
@@ -25,7 +25,7 @@ EXT	;Process external form
 	;
 	S:DDSOLD=Y DIR0N=1
 	S DDSX=X,DDSY=Y
-	I Y]"",$P($G(DDSU("DD")),U,2)["O",$G(^DD(DDP,DDSFLD,2))'?."^" K Y(0) X ^(2) S Y(0)=Y
+	I Y]"",$P($G(DDSU("DD")),U,2)["O"!($P($G(DDSU("DD")),U,2)["t") X $$OUTPUT^DIETLIBF(DDP,DDSFLD) S Y(0)=Y ;OUTPUT TRANSFORM
 	;
 	S DDSEXT=$G(Y(0,0),$G(Y(0),Y)),X=DDSY
 	;

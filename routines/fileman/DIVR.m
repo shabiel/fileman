@@ -1,5 +1,5 @@
-DIVR	;GFT/GFT -- VERIFY FIELD DIFLD, DATA DICTIONARY A;24JAN2013
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DIVR	;GFT/GFT -- VERIFY FIELD DIFLD, DATA DICTIONARY A;2013-03-22  3:19 PM
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 EN(A,DIFLD,DQI)	; Main Entry Point
 	I $D(DIVFIL)[0 N DIVDAT,DIVFIL,DIVMODE,DIVPG,POP D  G:$G(POP) Q^DIV
@@ -12,9 +12,10 @@ EN(A,DIFLD,DQI)	; Main Entry Point
 	F T="N","D","P","S","V","F" Q:TYP[T
 	F W="FREE TEXT","SET OF CODES","DATE","NUMERIC","POINTER","VARIABLE POINTER","K" I TYP[$E(W) S:W="K" T=W,W="MUMPS" Q
 	I TYP["C" Q
+TYPE	S %=+$P(TYP,"t",2) I %,$D(^DI(.81,%,0)) S T="F",W=$P(^(0),U)_" Data Type"
 	W "--FIELD #",DIFLD," ",$$LABEL^DIALOGZ(A,DIFLD),"--  (",W,")"
 	S W="W !,""ENTRY#"_$S(V:"'S",1:"")_""",?10,"""_$$LABEL^DIALOGZ(A,.01)_""",?40,""ERROR"",!"
-	D LF Q:$D(DIRUT)  S T=$E(T),DIVZ=$P(^DD(A,DIFLD,0),U,3),DDC=$P(^(0),U,5,999),DR=$P(^(0),U,2),P4=$P(^(0),U,4)
+	D LF Q:$D(DIRUT)  S T=$E(T),DIVZ=$P(^DD(A,DIFLD,0),U,3),DDC=$P(^(0),U,5,999),DR=$P(^(0),U,2),P4=$P(^(0),U,4) I DR["t" S DDC=$$VALINT^DIETLIBF(A,DIFLD)
 OUTT	I $G(^(2))]"" S DIVROUTT=^(2)
 	S DIVREQK=$D(^DD("KEY","F",A,DIFLD))>9
 	I $D(^DD("IX","F",A,DIFLD)) D
@@ -86,7 +87,7 @@ F	S DQ=X I X'?.ANP S M="Non-printing character" G X
 	X DDC Q:$D(X)  ;TRY INPUT TRANSFORM
 	I $G(DIVROUTT)]"" D  Q:$D(X)
 	.N Y S Y=DQ X DIVROUTT S X=Y X DDC ;TRY OUTPUT-TRANSFORMING, THEN INPUT TRANSFORM (AS WITH ^DD(2,.117), 'COUNTY'
-	S M=""""_DQ_""" fails Input Transform"
+	S M=""""_DQ_$S($G(DR)["t":""" is not a valid value",1:""" fails Input Transform")
 X	I $O(^UTILITY("DIVR",$J,0))="" X W
 	S X=$S(V:DA(V),1:DA),^UTILITY("DIVR",$J,X)=""
 	S X=V I @(I(0)_"0)")

@@ -1,5 +1,5 @@
-DIOU	;SFISC/TKW-GENERIC FILEMAN CODE GENERATION UTILITIES ;03:57 PM  5 Dec 2001
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DIOU	;SFISC/TKW-GENERIC FILEMAN CODE GENERATION UTILITIES ;9NOV2012
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 BIJ(S,F,I,J)	;BUILD I & J ARRAY.  S=(SUB)FILE#, F=FIELD#
 	N X,Y,% S X=0,(Y,J(0))=S F  Q:'$D(^DD(Y,0,"UP"))  S X=X+1,Y=^("UP")
@@ -36,7 +36,7 @@ GET(S,F,X,Y,DIFLAG)	;BUILD CODE TO EXTRACT FIELD.  S=FILE/SUBFILE#, F=FIELD#, X=
 	I E="" K Y Q
 	S Y="S "_X_"="_DN_"$G("_Y_E
 	Q:$G(DIFLAG)["I"
-	I %(2)]"",$P(%,U,2)["O",$P(%,U,2)'["D" S Y=Y_",Y="_X_" "_%(2)_" S "_X_"=Y"
+	I $P(%,U,2)["t"!($P(%,U,2)["O"),$P(%,U,2)'["D" S Y=Y_",Y="_X_" "_$$OUTPUT^DIETLIBF(S,F)_" S "_X_"=Y"
 	Q
 	;
 CAL	S Y=$P(%,U,5,99),E=$P($P(%,U,2),"p",2)
@@ -48,7 +48,8 @@ DTYP(S,F,Y)	;RETURN DATA TYPES(S) FOR A FIELD
 	I $G(F)=.001,$G(^DD(+$G(S),F,0))="" S Y=2 Q
 D2	Q:$G(^DD(+$G(S),+$G(F),0))=""  N %,%X,%Y,X,I,J,DITYP
 	S %=$P(^(0),U,2),%(1)=$P(^(0),U,3),%(4)=$P(^(0),U,5,99),DITYP=""
-	I '% S I="" F  S I=$O(^DI(.81,"C",I)) Q:I=""  I %[I S DITYP=$O(^(I,0)) Q
+TYPE	I %["t" S DITYP=+$P(%,"t",2) ;EXTENSIBLE DATA TYPE
+	E  I '% S I="" F  S I=$O(^DI(.81,"C",I)) Q:I=""  I %[I S DITYP=$O(^(I,0)) Q
 	I DITYP="",% D  Q
 	. I $P($G(^DD(+%,.01,0)),U,2)["W" S Y=5 Q
 	. S Y=10,Y(+%)="" Q
