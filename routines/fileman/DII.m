@@ -1,13 +1,13 @@
-DII	;SFISC/GFT,XAK,TKW-OPTION RDR, INQUIRY ;9JUN2011
-V	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DII	;SFISC/GFT,XAK,TKW-OPTION RDR, INQUIRY ;28DEC2012
+V	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	D
 	.N VERSION,X D VERSION^DI W !!,X,!
 	I '$G(DUZ),$D(^VA(200,0))#2 D  I '$G(DUZ) W $C(7),!,$$EZBLD^DIALOG(7005),! Q  ;MUST HAVE DUZ!
-	. N DIC,DTOUT,DUOUT
-ASK	. S DUZ=0,DIC=200,DIC(0)="AEFNQZ",DIC("A")="Identity = ",DIC("S")="I Y'<1&$L($P(^(0),U,3))"
+	. N DIC,DTOUT,DUOUT,DIIDUZ0
+ASK	. S DUZ=0,DIIDUZ0=$G(DUZ(0)),DIC=200,DIC(0)="AEFNQZ",DIC("A")="Identity = ",DIC("S")="I Y'<1&$L($P(^(0),U,3))"
 	. D ^DIC Q:Y'>0
-	. S DUZ=+Y,DUZ("LANG")=$P($G(^(200)),U,7),DUZ(1)="",DUZ(2)=$O(^VA(200,DUZ,2,0)) S:'$D(DUZ(0)) DUZ(0)=$P(Y(0),"^",4)
+	. S DUZ=+Y,DUZ("LANG")=$P($G(^(200)),U,7),DUZ(1)="",DUZ(2)=$O(^VA(200,DUZ,2,0)),DUZ(0)=$S(DIIDUZ0]"":DIIDUZ0,1:$P(Y(0),"^",4))
 	. S DUZ("AG")=$P($G(^XTV(8989.3,1,0)),"^",8) S:'DUZ(2) DUZ(2)=+$P($G(^("XUS")),U,17)
 	. S:'$G(DUZ("LANG")) DUZ("LANG")=$P($G(^XTV(8989.3,1,"XUS")),U,7)
 NOKL	D DT^DICRW,OS S DIK="^DOPT(""DII""," G F:$D(^DOPT("DII",9)) S ^(0)="OPTION^1.01^" F I=1:1 S X=$E($T(F+I),4,99) Q:X=""  S ^DOPT("DII",I,0)=X
