@@ -1,5 +1,5 @@
-DIPTED	;SFISC/GFT-EDIT PRINT TEMPLATE ; 18NOV2012
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013;Build 11
+DIPTED	;SFISC/GFT-EDIT PRINT TEMPLATE ;2013-07-10  2:34 PM
+	;;22.3T0;FILEMAN;;Mar 22, 2013;Build 11
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	;
 	N DIC,DIPT,DIPTED,DRK,DIPTEDTY,I,J
@@ -43,7 +43,7 @@ GET(DIPTA,DIT)	;put displayable template into @DIPTA
 	S (DRK,J(0))=$P(@DIT@(0),U,4),L=0,D(L)="0FIELD",C=",",D9="",Y=2,Q="""",DHD=$G(^("H")),DISH=$D(^("SUB"))
 	F DS(1)=0:0 S DS(1)=$O(@DIT@("F",DS(1))) Q:DS(1)=""  S DY=^(DS(1)) D Y^DIPT
 	D:D9]"" UP^DIPT
-	F D=2:1 Q:'$D(DS(D))  S @DIPTA@(D-1)=$J("",D>2*$G(DIWD(D))*3)_DS(D) ;indentation showing level of subfiles
+	F D=2:1 Q:'$D(DS(D))  S @DIPTA@(D-1)=$J("",D>2*$E($G(DIWD(D)))*3)_DS(D) ;indentation showing level of subfiles
 	Q
 	;
 PROCESS(DIPTA)	;puts nodes into ^UTILITY("DIP2")
