@@ -1,5 +1,5 @@
-DILIBF	;SFISC/STAFF-LIBRARY OF FUNCTIONS ;15NOV2012 ; 12/1/12 3:12pm
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DILIBF	;SFISC/STAFF-LIBRARY OF FUNCTIONS ;2013-08-09  10:11 AM; 12/1/12 3:12pm
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 HTFM(%H,%F)	;$H to FM
 	N X,%,%Y,%M,%D S:'$D(%F) %F=0
@@ -89,8 +89,9 @@ GLO(Z)	; gets the file number from a global root
 	Q $$FNO(+Y)
 	;
 UP(X)	; convert string X to uppercase
-	I $G(DUZ("LANG")) Q $$OUT^DIALOGU(X,"UC")
-	E  Q $TR(X,"abcdefghijklmnopqrstuvwxyz","ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+ I $G(DUZ("LANG"))>1 Q $$OUT^DIALOGU(X,"UC") ;INTERNATIONALIZED for GEKY to use LANGUAGE FILE
+ I X?.UNP Q X
+ Q $TR(X,"abcdefghijklmnopqrstuvwxyz","ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	;
 ROUEXIST(X)	; Execute routine existence test
 	G:X="" QRER I '$D(DISYS) N DISYS D OS^DII
