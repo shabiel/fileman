@@ -1,5 +1,5 @@
-DDSCOM	;SFISC/MLH-COMMAND UTILS ;12NOV2004
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DDSCOM	;SFISC/MLH-COMMAND UTILS ;20JULY2013
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 COM	;Command line prompt
 	D:$G(@DDSREFT@("HLP"))>0 HLP^DDSMSG()
@@ -57,7 +57,7 @@ SETUP(DDSM,X,DIR)	;DDSM, DIR, & X are return variables
 	S X="" ;This will be the string of COMMANDs, with control sequences to highlight
 	S XVIS="" ;just visible chars
 	S DIR(0)="SO^"
-	I DDSSC>1!$P(DDSSC(DDSSC),U,4) D  ;POP-UP PAGE.   IT ALSO DID THIS IF $G(DDSSEL)
+	I DDSSC>1!$P(DDSSC(DDSSC),U,4)!($G(DDSSEL)&'$$MULSELPG^DDSRUN(+DDS)) D  ;POP-UP PAGE.   DO THIS FOR OLD-STYLE SELECTION PAGE
 	.D EXSANEXR(2,"CL"),EXSANEXR(5,"RF")
 	.S DIR("B")=DDSCH(2) ;"Close" in Command Line
 	E  D
