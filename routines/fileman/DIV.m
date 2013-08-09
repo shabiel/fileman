@@ -1,11 +1,11 @@
-DIV	;SFISC/GFT-VERIFY FLDS ;24JAN2013
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DIV	;SFISC/GFT-VERIFY FLDS ;08AUG2013
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	N DIUTIL,DIVDAT,DIVFIL,DIVMODE,DIVPG,POP S DIUTIL="VERIFY FIELDS"
 	K J
 	S V=0,P=0,I(0)=DIU,@("(A,J(0))=+$P("_DIU_"0),U,2)")
 	I $O(^(0))'>0 W $C(7),"  NO ENTRIES ON FILE!" Q
-DIC	S DIC="^DD("_A_",",DIC(0)="EZ",DIC("W")="W:$P(^(0),U,2) ""  (multiple)"""
+DIC	S DIC="^DD("_A_",",DIC(0)="QEZ",DIC("W")="W:$P(^(0),U,2) ""  (multiple)"""
 	S DIC("S")="S %=$P(^(0),U,2) I %'[""C"",$S('%:1,1:$P(^DD(+%,.01,0),U,2)'[""W"")"
 	W !,"VERIFY WHICH "_$P(^DD(A,0),U)_": " R X:DTIME Q:U[X
 	I X="ALL" D ALL G Q:$D(DIRUT) I Y S DIVMODE="A" D DEVSEL G:$G(POP) Q D INIT,ALLFLDS(A) G Q^DIVR:DQI'>0!$D(DIRUT)
