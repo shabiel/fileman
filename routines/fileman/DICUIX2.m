@@ -1,5 +1,5 @@
-DICUIX2	;VEN/TOAD,SF/TKW - Lookup: Build Index Data ; 1/25/13 12:32pm
-	;;22.2V2;VA FILEMAN;;Mar 08, 2013
+DICUIX2	;VEN/TOAD,SF/TKW - Lookup: Build Index Data ; 11 OCT 2013
+	;;22.3T0;FILEMAN;;Mar 22, 2013
 	;Per VHA Directive 2004-038, this routine should not be modified.
 	;
 	;
@@ -111,7 +111,7 @@ C6	; 6. Handle partial matches, incl. setting From
 	. S DINDEX(DISUB,"USE")=1
 	. S DIFR=$$BACKFROM(DIPRT) ; start from end of partial matches
 	;
-	S DINDEX(DISUB)=$G(DIFR) I DIFR]"" S DINDEX(DISUB,"FROM")=DIFR
+	S (DINDEX(DISUB),DINDEX(DISUB,"FROM"))=DIFR
 	I DIPRT]"" S DINDEX(DISUB,"PART")=DIPRT
 	I $D(DITO(DISUB)) S DINDEX(DISUB,"TO")=DITO(DISUB)
 	;
