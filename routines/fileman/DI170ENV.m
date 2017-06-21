@@ -1,5 +1,5 @@
 DI170ENV ;OIFO-Oakland/RD - ENVIRONMENT CHECK ROUTINE ;
- ;;22.0;VA FileMan;**170**;Mar 30, 1999;Build 11
+ ;;22.0;VA FileMan;**170**;Mar 30, 1999;Build 10
  ;Per VHA Directive 2004-038, this routine should not be modified.
  ;
  ;this routine is used to test patch DI*22*170

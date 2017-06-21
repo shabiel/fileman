@@ -1,24 +1,10 @@
-DIPR163 ;O-OIFO/GMB-Envirocheck and Post Init ;2/23/2010
- ;;22.0;VA FileMan;**163**;Mar 30, 1999;Build 28
+DIPR161 ;O-OIFO/GMB-Correct LABEL DD node ;6/28/2009
+ ;;22.0;VA FileMan;**161**;Mar 30, 1999;Build 1
  ;Per VHA Directive 2004-038, this routine should not be modified.
 ENV ; Environmental Check
  D BMES^XPDUTL("Perform Environment Check...")
  D CHKSTOP
  D BMES^XPDUTL("Finished Environment Check.")
- Q
-POST ; Set DD changes to the PRINT TEMPLATE (#.4) file.
- S ^DD(.4,1815,1,0)="^.1^1^1"
- S ^DD(.4,1815,1,1,0)="^^^MUMPS"
- S ^DD(.4,1815,1,1,1)="Q"
- S ^DD(.4,1815,1,1,2)="D DELETROU^DIEZ($TR(X,U))"
- S ^DD(.4,"IX",1815)=""
- ; Set DD changes to the INPUT TEMPLATE (#.402) file.
- S ^DD(.402,1815,1,0)="^.1^1^1"
- S ^DD(.402,1815,1,1,0)="^^^MUMPS"
- S ^DD(.402,1815,1,1,1)="Q"
- S ^DD(.402,1815,1,1,2)="D DELETROU^DIEZ($TR(X,U))"
- S ^DD(.402,"IX",1815)=""
- S ^DD(.402,0,"ID","WRITED")="I $G(DZ)?1""???"".E N % S %=0 F  S %=$O(^DIE(Y,""%D"",%)) Q:%'>0  I $D(^(%,0))#2 D EN^DDIOL(^(0),"""",""!?5"")"
  Q
 CHKSTOP ;
  ; Check XPDENV 0 = Loading; 1 = Installing
@@ -45,4 +31,16 @@ LINH ; Check to see if Logons are Inhibited
  Q:$G(^%ZIS(14.5,"LOGON",$P(Y,"^",2)))
  W $C(7)
  D BMES^XPDUTL("* Warning Logons are NOT Inhibited!")
+ Q
+POSTINIT ; Post-Init
+ D BMES^XPDUTL("Beginning Post-Installation...")
+ I $P(^DD(0,.01,0),U,2)="RF" D
+ . D MES^XPDUTL("  The DD has already been changed to prevent ^ in LABELS. No action taken.")
+ E  D
+ . D MES^XPDUTL("  I am changing piece 2 of ^DD(0,.01,0) from 'R' to 'RF' to prevent ^ in LABELs.")
+ . S $P(^DD(0,.01,0),U,2)="RF"
+ D BMES^XPDUTL("  I am saving routine DIDTC as %DTC.")
+ N SCR,%S,%D,ZTOS
+ S SCR="I 1",ZTOS=$$OSNUM^ZTMGRSET,%S="DIDTC",%D="%DTC" D MOVE^ZTMGRSET
+ D MES^XPDUTL("Finished Post-Installation.")
  Q
